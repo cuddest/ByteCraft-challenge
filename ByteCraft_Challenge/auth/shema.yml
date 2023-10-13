@@ -1,0 +1,252 @@
+openapi: 3.0.3
+info:
+  title: '  ByteCraft''s ToDoList API'
+  version: 0.0.0
+paths:
+  /auth_app/addT/:
+    get:
+      operationId: auth_app_addT_list
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+          description: ''
+    post:
+      operationId: auth_app_addT_create
+      tags:
+      - auth_app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+  /auth_app/del/{id}/:
+    delete:
+      operationId: auth_app_del_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /auth_app/det/{id}/:
+    get:
+      operationId: auth_app_det_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    put:
+      operationId: auth_app_det_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth_app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Task'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Task'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Task'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    patch:
+      operationId: auth_app_det_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth_app
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTask'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+          description: ''
+    delete:
+      operationId: auth_app_det_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /auth_app/list/:
+    get:
+      operationId: auth_app_list_list
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+          description: ''
+  /auth_app/login/:
+    post:
+      operationId: auth_app_login_create
+      tags:
+      - auth_app
+      responses:
+        '200':
+          description: No response body
+  /auth_app/lout/:
+    post:
+      operationId: auth_app_lout_create
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /auth_app/register/:
+    post:
+      operationId: auth_app_register_create
+      tags:
+      - auth_app
+      responses:
+        '200':
+          description: No response body
+  /auth_app/userv/:
+    get:
+      operationId: auth_app_userv_retrieve
+      tags:
+      - auth_app
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    PatchedTask:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 50
+        user:
+          type: integer
+          readOnly: true
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 50
+        description:
+          type: string
+          maxLength: 50
+        user:
+          type: integer
+          readOnly: true
+      required:
+      - description
+      - id
+      - title
+      - user
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
